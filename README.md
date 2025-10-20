@@ -27,22 +27,19 @@ See also:
 ## Project structure
 ```
 xpath-sanitizer
-├─ pom.xml                              # Maven project configuration
-├─ README.md                            # This file
+├─ LICENSE                             # MIT License
+├─ pom.xml                             # Maven project configuration
+├─ README.md                           # This file
 ├─ doc\
-│  ├─ sanitizer-docs.md                 # Detailed sanitizer documentation and examples
-│  └─ xpath-vulnerabilities.md          # Background on XPath vulnerabilities
-├─ src\main\java\
-│  ├─ com\example\demo\Main.java       # Demo entry point
-│  └─ com\example\demo\util\
-│     ├─ Sanitizer.java                 # Public API (interface)
-│     └─ SanitizerImpl.java             # Reference implementation (see notes in code)
-├─ src\main\resources\
-│  ├─ junit-platform.properties         # JUnit platform configuration (used by tests)
-│  └─ META-INF\services\org.junit.jupiter.api.extension.Extension
-│                                        # Auto-registered JUnit 5 extension(s)
-└─ src\test\java\com\example\demo\
-   └─ SanitizerTest.java                # Unit tests covering filenames, XPath, security, i18n
+│  ├─ sanitizer-docs.md                # Detailed sanitizer documentation and examples
+│  └─ xpath-vulnerabilities.md         # Background on XPath vulnerabilities
+├─ src\main\java\dev\rodrigoazlima\app\sanitizer\
+│  ├─ Main.java                        # Demo entry point
+│  └─ util\
+│     ├─ Sanitizer.java                # Public API (interface)
+│     └─ SanitizerImpl.java            # Reference implementation
+└─ src\test\java\dev\rodrigoazlima\app\sanitizer\
+   └─ SanitizerTest.java               # Unit tests covering filenames, XPath, security, i18n
 ```
 
 ## Build
@@ -78,8 +75,8 @@ TODO:
 If you intend to use this as a library within another project after packaging, depend on the produced artifact or copy the utility class. Example code:
 
 ```java
-import dev.rodrigoazlima.app.sanitizer.Sanitizer;
-import dev.rodrigoazlima.app.sanitizer.SanitizerImpl;
+import dev.rodrigoazlima.app.sanitizer.util.Sanitizer;
+import dev.rodrigoazlima.app.sanitizer.util.SanitizerImpl;
 
 Sanitizer sanitizer = new SanitizerImpl();
 String safe = sanitizer.sanitize(userInput);
@@ -120,15 +117,11 @@ Notes:
 
 ## Known issues / TODOs
 - The packaged JAR is not executable: pom.xml manifest `mainClass` points to `com.exemplo.app.App` (missing). Update to `dev.rodrigoazlima.app.sanitizer.Main` or another real entry point.
-- No license file present in the repository.
-- Some docs may describe additional utility shapes (e.g., static utility style) — align implementation and docs as needed.
+- Some docs or comments may reference older package names (e.g., com.example.*); align implementation, tests, and docs as needed.
 
 ## License
-No explicit license file is present in this repository.
-
-TODO:
-- Add a LICENSE file (e.g., MIT, Apache-2.0, or your preferred license) and update this section accordingly.
+This project is licensed under the MIT License — see the LICENSE file for details.
 
 ---
 
-Last updated: 2025-10-20 15:26 (local)
+Last updated: 2025-10-20 18:19 (local)
