@@ -120,8 +120,8 @@ Notes:
 - Some docs or comments may reference older package names (e.g., com.example.*); align implementation, tests, and docs as needed.
 
 ## License
-This project is licensed under the MIT License — see the LICENSE file for details.
+MIT License © 2025 Rodrigo Lima — see the LICENSE file for full text.
 
 ---
 
-Last updated: 2025-10-20 18:19 (local)
+Last updated: 2025-10-20 18:27 (local)
