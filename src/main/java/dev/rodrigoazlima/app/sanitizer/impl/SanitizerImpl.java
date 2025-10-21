@@ -97,9 +97,9 @@ public class SanitizerImpl implements Sanitizer {
         // 2) Remove path traversal patterns and separators
         // Remove slashes and backslashes
         s = s.replace("/", "").replace("\\", "");
-        // If consists only of dots at this point -> invalid (before stripping ".." which could empty it)
+        // If consists only of dots at this point -> previously invalid; now remove illegal dots to yield empty
         if (s.chars().allMatch(ch -> ch == '.')) {
-            throw new IllegalArgumentException("Name cannot consist only of dots");
+            s = "";
         }
         // Do not blindly remove ".." everywhere (it can be part of a filename like "file....txt").
         // We will collapse multiple dots later and strip leading dots to neutralize traversal.
@@ -133,9 +133,9 @@ public class SanitizerImpl implements Sanitizer {
         // Remove gratuitous spaces around dots
         s = s.replaceAll("\\s*\\.\\s*", ".");
 
-        // 6) If consists only of dots at this point -> invalid
+        // 6) If consists only of dots at this point -> previously invalid; now remove illegal dots to yield empty
         if (s.chars().allMatch(ch -> ch == '.')) {
-            throw new IllegalArgumentException("Name cannot consist only of dots");
+            s = "";
         }
 
         // 7) Dot/underscore normalization

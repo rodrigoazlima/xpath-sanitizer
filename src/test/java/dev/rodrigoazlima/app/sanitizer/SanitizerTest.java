@@ -89,7 +89,7 @@ class SanitizerTest {
                 "file<script>alert(1)</script>.txt, filealert1.txt, false",
                 "'my    document    file.docx', 'my document file.docx', false",
                 "README, README, false",
-                "...., '', true",
+                "...., '', false",
                 "...file.txt, file.txt, false",
                 "file....txt, file.txt, false",
                 "___file.txt, file.txt, false",
