@@ -12,7 +12,7 @@ public class Main {
             return;
         }
 
-        StringBuilder output = new StringBuilder("");
+        StringBuilder output = new StringBuilder();
         for (String arg : args) {
             String out = sanitizer.sanitize(arg);
             output.append(out);
