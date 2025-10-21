@@ -90,7 +90,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.exemplo.app.App</mainClass>
+                            <mainClass>dev.rodrigoazlima.app.sanitizer.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

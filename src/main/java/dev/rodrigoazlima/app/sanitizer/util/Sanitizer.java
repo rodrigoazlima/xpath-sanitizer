@@ -5,8 +5,7 @@ package dev.rodrigoazlima.app.sanitizer.util;
  *
  * Behavior and rules are derived from the repository documentation (doc/sanitizer-docs.md)
  * and the executable specification provided by tests in:
- * - src/test/java/com/example/demo/SanitizerTest.java
- * - src/test/java/com/example/demo/SanitizerExtraTest.java
+ * - src/test/java/dev/rodrigoazlima/app/sanitizer/SanitizerTest.java
  *
  * High-level contract (summarized):
  * - Single responsibility: provide a safe, deterministic transformation of potentially unsafe input.

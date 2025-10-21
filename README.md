@@ -53,23 +53,27 @@ Use Maven to build the project.
 - Full build with tests:
   - mvn clean verify
 
-- Package JAR (non-executable by default; see TODO below):
+- Package JAR (executable):
   - mvn clean package
   - Output: target\xpath-sanitizer-1.0.0.jar (groupId: dev.rodrigoazlima.app.sanitizer)
 
 ## Run
 This project includes a simple demo main class at `dev.rodrigoazlima.app.sanitizer.Main` that prints a message and constructs `SanitizerImpl`.
 
-Because the current Maven JAR plugin manifest points to a non-existent main class, the packaged JAR is not executable yet. You can still run the main class directly from compiled classes:
+You can run it from the packaged JAR or from compiled classes:
 
-- Compile: mvn -q compile
-- Run via java -cp:
+- Run from JAR (after packaging):
+  - mvn -q package
+  - Windows PowerShell:
+    - java -jar target\xpath-sanitizer-1.0.0.jar
+
+- Run from compiled classes (without packaging):
+  - mvn -q compile
   - Windows PowerShell:
     - java -cp target\classes dev.rodrigoazlima.app.sanitizer.Main
 
-TODO:
-- Fix the JAR manifest mainClass in pom.xml (currently set to `com.exemplo.app.App`, which does not exist). Suggested value: `dev.rodrigoazlima.app.sanitizer.Main`.
-- Optionally add the Maven Exec Plugin for `mvn exec:java -Dexec.mainClass=dev.rodrigoazlima.app.sanitizer.Main` convenience.
+Optional:
+- Consider adding the Maven Exec Plugin for `mvn exec:java -Dexec.mainClass=dev.rodrigoazlima.app.sanitizer.Main` convenience.
 
 ## Usage (library)
 If you intend to use this as a library within another project after packaging, depend on the produced artifact or copy the utility class. Example code:
@@ -116,12 +120,11 @@ Notes:
 - Tests assume behavior documented in doc/sanitizer-docs.md. If you change sanitization rules, update tests and docs together.
 
 ## Known issues / TODOs
-- The packaged JAR is not executable: pom.xml manifest `mainClass` points to `com.exemplo.app.App` (missing). Update to `dev.rodrigoazlima.app.sanitizer.Main` or another real entry point.
-- Some docs or comments may reference older package names (e.g., com.example.*); align implementation, tests, and docs as needed.
+- 
 
 ## License
 MIT License © 2025 Rodrigo Lima — see the LICENSE file for full text.
 
 ---
 
-Last updated: 2025-10-20 18:27 (local)
+Last updated: 2025-10-21 04:35 (local)
