@@ -1,4 +1,4 @@
-package dev.rodrigoazlima.app.sanitizer.util;
+package dev.rodrigoazlima.app.sanitizer;
 
 /**
  * Contract for input sanitization used across the application.

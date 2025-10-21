@@ -1,4 +1,6 @@
-package dev.rodrigoazlima.app.sanitizer.util;
+package dev.rodrigoazlima.app.sanitizer.impl;
+
+import dev.rodrigoazlima.app.sanitizer.Sanitizer;
 
 /**
  * Documentation-only reference implementation description for {@link Sanitizer}.

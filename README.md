@@ -79,8 +79,8 @@ Optional:
 If you intend to use this as a library within another project after packaging, depend on the produced artifact or copy the utility class. Example code:
 
 ```java
-import dev.rodrigoazlima.app.sanitizer.util.Sanitizer;
-import dev.rodrigoazlima.app.sanitizer.util.SanitizerImpl;
+import dev.rodrigoazlima.app.sanitizer.Sanitizer;
+import dev.rodrigoazlima.app.sanitizer.impl.SanitizerImpl;
 
 Sanitizer sanitizer = new SanitizerImpl();
 String safe = sanitizer.sanitize(userInput);

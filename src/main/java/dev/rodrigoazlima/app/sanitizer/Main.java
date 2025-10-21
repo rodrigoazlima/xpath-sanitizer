@@ -1,7 +1,6 @@
 package dev.rodrigoazlima.app.sanitizer;
 
-import dev.rodrigoazlima.app.sanitizer.util.Sanitizer;
-import dev.rodrigoazlima.app.sanitizer.util.SanitizerImpl;
+import dev.rodrigoazlima.app.sanitizer.impl.SanitizerImpl;
 
 public class Main {
     public static void main(String[] args) {
