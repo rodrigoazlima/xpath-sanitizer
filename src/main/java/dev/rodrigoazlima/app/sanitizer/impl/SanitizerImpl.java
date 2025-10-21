@@ -3,76 +3,45 @@ package dev.rodrigoazlima.app.sanitizer.impl;
 import dev.rodrigoazlima.app.sanitizer.Sanitizer;
 
 /**
- * Documentation-only reference implementation description for {@link Sanitizer}.
- * NOTE: This class intentionally does not contain an implementation. It documents the
- * rules and behavioral expectations that a concrete implementation must follow to
- * satisfy the repository's tests and documentation. Use this as a specification
- * for implementing sanitize(String).
- * Overall goals:
- * - Produce a safe, deterministic string suitable for use as a filename and generic input.
- * - Remove path traversal and dangerous characters, preserve legitimate content including
- * international characters, and enforce a maximum length (255 chars) while preserving
- * file extension when possible.
- * - Be strict for invalid inputs (null, blank-only, names consisting only of dots).
- * Algorithmic outline (step-by-step):
- * 1) Validate input
- * - if input == null -> throw IllegalArgumentException
- * - if input is blank-only (trimmed is empty but original not empty) -> throw IllegalArgumentException
- * - if input is empty string "" -> return "" (allowed)
- * 2) Normalize line terminators and control characters
- * - Remove all CR ("\r") and LF ("\n") characters
- * - Remove other ASCII control characters (0x00-0x1F, 0x7F) if present
- * 3) Remove path traversal and separators
- * - Remove all occurrences of ".." segments (consecutive dots used for traversal)
- * - Remove directory separators '/' and '\\'
- * - After this step, sequences like "../../etc/passwd" become "etcpasswd"
- * 4) Strip scripting and markup constructs
- * - Remove '<' and '>' characters
- * - Remove paired script tags and any HTML-like tags; a simple approach is to remove
- * everything between "<" and ">" repeatedly, or to strip those delimiters and keep
- * inner text (tests expect: "file<script>alert(1)</script>.txt" -> "filealert1.txt")
- * 5) Remove dangerous shell/meta characters and percent encodings
- * - Remove any of the following characters when present: ';', '|', '&', '$', '`', '%'
- * - Remove stray quote sequences that enable injection in XPath or shell contexts
- * 6) Whitespace normalization
- * - Trim leading/trailing whitespace
- * - Collapse internal runs of spaces to a single space
- * - Remove gratuitous spaces around dots so that " report .txt " -> "report.txt"
- * 7) Dot/underscore normalization for filenames
- * - If the string consists only of dots (e.g., "....") -> throw IllegalArgumentException
- * - Remove leading dots and underscores (e.g., "___file.txt" -> "file.txt", "...file.txt" -> "file.txt")
- * - Remove trailing dots and underscores (e.g., "file___.txt" -> "file.txt", "file....txt" -> "file.txt")
- * - Preserve a single, meaningful extension when present (e.g., keep ".pdf")
- * 8) Preserve international characters
- * - Do not transliterate or strip Unicode letters from supported alphabets
- * (e.g., "España_Año_2024.pdf" stays unchanged)
- * 9) Length enforcement (max 255 characters)
- * - If the sanitized name length exceeds 255, truncate it so that the final length is <= 255
- * - Attempt to preserve the final extension from the original input (e.g., long name ending
- * with ".pdf" should still end with ".pdf" after truncation)
- * 10) Final security check
- * - Ensure result does not contain any of the forbidden characters or patterns tested:
- * '/', '\\', "..", '<', '>', ';', '|', '&', '$', '`', '%', CR, LF
- * - Ensure the string is not empty due to stripping unless empty input was explicitly provided
- * Examples (derived from tests):
- * - "My Document 2024.pdf" -> "My Document 2024.pdf" (pass-through)
- * - "../../etc/passwd" -> "etcpasswd" (traversal removed)
- * - "..\\..\\windows\\system32" -> "windowssystem32" (Windows traversal removed)
- * - " report .txt " -> "report.txt" (trim and spacing around dot removed)
- * - "file<script>alert(1)</script>.txt" -> "filealert1.txt" (tags stripped)
- * - "filename\r\n.txt" -> "filename.txt" (CR/LF removed)
- * - "...." -> throws IllegalArgumentException (invalid after normalization)
- * - 300x"a" + ".pdf" -> truncated to <=255 characters and still ends with ".pdf"
- * Non-goals:
- * - This specification does not guarantee portability across all filesystems; it focuses on the
- * behaviors asserted by the repository tests and documentation.
- * - No attempt is made to escape for specific SQL/LDAP contexts; scope is filename/generic input
- * sanitization and XPath safety constraints demonstrated by tests.
+ * Reference sanitizer used by tests and examples.
+ *
+ * This class implements the {@link Sanitizer} contract with practical rules derived from
+ * the repository documentation (doc/sanitizer-docs.md) and tests in
+ * src/test/java/dev/rodrigoazlima/app/sanitizer. It aims to:
+ * - Remove traversal and path separators
+ * - Strip dangerous markup and shell metacharacters
+ * - Normalize whitespace and dots/underscores
+ * - Preserve international characters
+ * - Enforce a maximum length while attempting to preserve the final extension
+ *
+ * Notes on inputs:
+ * - Empty string ("") is allowed and results in an empty output.
+ * - If the sanitized content becomes empty after filtering, an empty string is returned.
+ * - For simplicity and robustness in this reference, null/blank-only inputs are treated as empty.
+ *
+ * See README.md and doc/sanitizer-docs.md for examples.
  */
 public class SanitizerImpl implements Sanitizer {
 
+    /**
+     * Maximum allowed length for the sanitized output. Values longer than this limit
+     * are truncated; when possible, the final extension of the input is preserved.
+     */
     private static final int MAX_LENGTH = 255;
 
+    /**
+     * Performs sanitization according to the rules summarized in the class Javadoc.
+     * Typical effects include removal of traversal sequences and separators, stripping
+     * of dangerous characters and tags, whitespace normalization, and length enforcement.
+     *
+     * Edge cases:
+     * - null or blank-only inputs are treated as empty and yield "".
+     * - If the sanitized content becomes empty after filtering, returns "".
+     * - Attempts to preserve the final extension on truncation (e.g., ".pdf").
+     *
+     * @param input the potentially unsafe input to sanitize
+     * @return the sanitized string (never null)
+     */
     @Override
     public String sanitize(String input) {
         if (input == null || input.isEmpty() || input.trim().isEmpty()) {
