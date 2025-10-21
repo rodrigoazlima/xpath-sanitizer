@@ -17,7 +17,6 @@ See also:
 - Language: Java 17
 - Build tool / package manager: Maven (pom.xml)
 - Testing: JUnit 5 (Jupiter), Mockito
-- Libraries used (from pom.xml): Apache Commons IO, Apache Commons Text, OWASP Encoder, jsoup
 
 ## Requirements
 - Java 17 or newer (JDK)
@@ -118,4 +117,4 @@ MIT License © 2025 Rodrigo Lima — see LICENSE for full text.
 
 ---
 
-Last updated: 2025-10-21 05:11 (local)
+Last updated: 2025-10-21 05:46 (local)
